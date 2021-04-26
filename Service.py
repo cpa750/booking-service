@@ -63,6 +63,7 @@ class Service:
 
 
 def get_args():
+    # Gets host name and port number from the program arguments
     import sys
     if len(sys.argv) < 3:
         return False
@@ -79,6 +80,7 @@ if __name__ == "__main__":
     else:
         daemon = Pyro5.server.Daemon()
 
+    # Must run the Pyro5 nameserver first, or this will fail
     nameserver = Pyro5.core.locate_ns()
     uri = daemon.register(Service)
     print(uri)
