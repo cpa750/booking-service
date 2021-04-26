@@ -28,14 +28,6 @@ class Service:
     def make_bookmark(self, location_id):
         Bookmark(self.__db, self.current_customer_id, location_id)
 
-    def get_bookmark_locations(self):
-        customer = Customer(self.__db, self.current_customer_id)
-        rows = customer.get_bookmarked_locations()
-        if rows:
-            return [row[1] for row in rows]
-        else:
-            return False
-
     def make_reservation(self, location_id, start, end):
         reservation = Reservation(db=self.__db, customer_id=self.current_customer_id,
                                   location_id=location_id, start=start, end=end)
@@ -70,10 +62,23 @@ class Service:
         self.__db.reset_db()
 
 
+def get_args():
+    import sys
+    if len(sys.argv) < 3:
+        return False
+    else:
+        return sys.argv[1], int(sys.argv[2])
+
+
 if __name__ == "__main__":
     import Pyro5.core
 
-    daemon = Pyro5.server.Daemon(host="192.168.0.12", port=9090)
+    args = get_args()
+    if args:
+        daemon = Pyro5.server.Daemon(host=args[0], port=args[1])
+    else:
+        daemon = Pyro5.server.Daemon()
+
     nameserver = Pyro5.core.locate_ns()
     uri = daemon.register(Service)
     print(uri)

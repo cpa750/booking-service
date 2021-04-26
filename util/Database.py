@@ -55,15 +55,20 @@ class Database:
         self.__connection.commit()
         self.__insert_dummy_locations()
 
+    def __build_dummy_location(self, location_no):
+        return (
+            "name" + str(location_no),
+            "address" + str(location_no),
+            "email" + str(location_no)
+        )
+
     def __insert_dummy_locations(self):
         # Normally this wouldn't be done. However, in the context of a
         # case study, dummy values for locations are needed.
-        locations = (
-            ("name1", "address1", "email1"),
-            ("name2", "address2", "email2"),
-            ("name3", "address3", "email3"),
-            ("name4", "address4", "email4")
-        )
+        locations = [
+            # Building 50 dummy locations
+            self.__build_dummy_location(x) for x in range(1, 50)
+        ]
         for location in locations:
             query_string = "INSERT INTO Location (name, address, email) VALUES (?, ?, ?)"
             self.write(query_string, location)

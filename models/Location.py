@@ -26,18 +26,3 @@ class Location:
     def __write_to_db(self):
         query_string = "INSERT INTO Location (name, address, email) VALUES (?, ?, ?)"
         self.__db.write(query_string, (self.name, self.address, self.email))
-
-    def update_name(self, new_name):
-        self.name = new_name
-        query_string = "UPDATE Location SET name = ?"
-        self.__db.write(query_string, (self.name,))
-
-    def update_address(self, new_address):
-        self.address = new_address
-        query_string = "UPDATE Location SET address = ?"
-        self.__db.write(query_string, (self.address,))
-
-    def update_email(self, new_email):
-        self.email = new_email
-        query_string = "UPDATE Location SET email = ?"
-        self.__db.write(query_string, (self.email,))

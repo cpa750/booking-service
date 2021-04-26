@@ -21,14 +21,6 @@ class Customer:
             query_string = "INSERT INTO Customer (id, custName, phoneNo) VALUES (?, ?, ?)"
             self.__db.write(query_string, (self.customer_id, self.name, self.phone_no))
 
-    def get_bookmarked_locations(self):
-        query_string = "SELECT * FROM Bookmark WHERE customerId = ?"
-        rows = self.__db.read(query_string, (self.customer_id,))
-        if len(rows) > 0:
-            return rows
-        else:
-            return False
-
     def get_no_of_reservations(self):
         query_string = "SELECT * FROM Reservation WHERE customerId = ?"
         rows = self.__db.read(query_string, (self.customer_id,))
